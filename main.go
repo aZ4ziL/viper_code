@@ -2,10 +2,11 @@ package main
 
 import (
 	"encoding/gob"
-	"net/http"
 	"time"
 
 	"github.com/aZ4ziL/viper_code/models"
+	"github.com/aZ4ziL/viper_code/renderer"
+	"github.com/aZ4ziL/viper_code/routers"
 	"github.com/gin-contrib/sessions"
 	gormsessions "github.com/gin-contrib/sessions/gorm"
 	"github.com/gin-gonic/gin"
@@ -19,16 +20,16 @@ func init() {
 func main() {
 	r := gin.Default()
 
-	// Use Session
+	r.HTMLRender = renderer.CreateMyRender()
 
+	// Set Static
+	r.Static("/static", "./static")
+
+	// Use Session
 	store := gormsessions.NewStore(models.GetDB(), true, []byte("secret"))
 	r.Use(sessions.Sessions("ginSessionID", store))
 
-	r.GET("/", func(ctx *gin.Context) {
-		ctx.JSON(http.StatusOK, gin.H{
-			"title": "Hello World",
-		})
-	})
+	routers.HomeRouter(r)
 
 	r.Run(":8000")
 }
