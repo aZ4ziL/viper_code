@@ -18,4 +18,6 @@
 
 ---
 
-<img src="img/Screenshot_20221019_035427.png" height="300">
+<div id="screenshot" align="center">
+  <img src="img/Screenshot_20221019_035427.png" height="300">
+</div>
